@@ -1,0 +1,21 @@
+{
+  "Inputs" : {
+    "image" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "Outputs" : {
+    "target" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "targetProbability" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "TrainingInputs" : {
+
+  },
+  "States" : {
+
+  }
+}
