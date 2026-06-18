@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var showImagePicker = false
-
     var body: some View {
         NavigationStack {
             VStack(spacing: 32) {
@@ -44,7 +42,6 @@ struct HomeView: View {
     private var actionSection: some View {
             VStack(spacing: 16) {
                 Button {
-                    showImagePicker = true
                 } label: {
                     Label("Pilih dari Galeri", systemImage: "photo.on.rectangle")
                         .frame(maxWidth: .infinity)
