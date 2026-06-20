@@ -1,0 +1,15 @@
+{
+  "MLModelVersionStringKey" : "--",
+  "MLModelDescriptionKey" : "Proyek yang bertugas untuk mengklasifikasikan bahan makanan",
+  "MLModelCreatorDefinedKey" : {
+    "com.apple.coreml.model.preview.type" : "imageClassifier",
+    "com.apple.createml.training.started" : "2026-06-10T07:30:43Z",
+    "com.apple.createml.version" : "26.5.1",
+    "com.apple.createml.training.finished" : "2026-06-10T07:30:49Z",
+    "com.apple.createml.app.tag" : "178.2",
+    "com.apple.createml.model.created" : "2026-06-10T07:30:49Z",
+    "com.apple.createml.app.version" : "6.2"
+  },
+  "MLModelAuthorKey" : "Dicoding",
+  "MLModelLicenseKey" : "--"
+}
