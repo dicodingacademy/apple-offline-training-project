@@ -57,7 +57,6 @@ final class CameraManager: NSObject {
         session.sessionPreset = .medium
         previewLayer.session = session
         previewLayer.videoGravity = .resizeAspectFill
-        // configureInputOutput() tidak dipanggil di sini — dipanggil setelah auth confirmed
     }
 
     nonisolated private func configureInputOutput() {
