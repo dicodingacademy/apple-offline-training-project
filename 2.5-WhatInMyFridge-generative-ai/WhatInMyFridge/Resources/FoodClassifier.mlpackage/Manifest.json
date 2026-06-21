@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "18700A0A-E3EF-401C-A227-06120F1808E6": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "Food-ingredients 1.mlmodel",
+            "path": "com.apple.CoreML/Food-ingredients 1.mlmodel"
+        },
+        "7EB45CBB-5D6B-4CE4-8D8E-0757FC9252E3": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        },
+        "80FD8B83-DE4D-4DC4-9106-38EFAD67BDEE": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        }
+    },
+    "rootModelIdentifier": "18700A0A-E3EF-401C-A227-06120F1808E6"
+}
