@@ -249,3 +249,7 @@ struct FlowLayout: Layout {
         }
     }
 }
+
+#Preview {
+    RecipeView(ingredients: ["Apple"] )
+}

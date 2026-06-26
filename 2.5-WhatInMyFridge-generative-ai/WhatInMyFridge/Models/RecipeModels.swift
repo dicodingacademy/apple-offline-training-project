@@ -5,20 +5,10 @@ import Foundation
 struct OpenAIRequest: Encodable {
     let model: String
     let messages: [Message]
-    let responseFormat: ResponseFormat
-
-    enum CodingKeys: String, CodingKey {
-        case model, messages
-        case responseFormat = "response_format"
-    }
 
     struct Message: Encodable {
         let role: String
         let content: String
-    }
-
-    struct ResponseFormat: Encodable {
-        let type: String
     }
 }
 

@@ -20,26 +20,20 @@ enum APIError: LocalizedError {
 
 final class RecipeAPIService {
     func generateRecipe(ingredients: [String]) async throws -> RecipeData {
-        guard let url = URL(string: Constants.openAIEndpoint) else {
+        guard let url = URL(string: Constants.aiEndpoint) else {
             throw APIError.invalidURL
         }
 
         let prompt = buildPrompt(ingredients: ingredients)
         let requestBody = OpenAIRequest(
-            model: Constants.openAIModel,
+            model: Constants.aiModel,
             messages: [
-                OpenAIRequest.Message(
-                    role: "system",
-                    content: "Kamu adalah chef profesional. Selalu kembalikan respons dalam format JSON yang valid."
-                ),
                 OpenAIRequest.Message(role: "user", content: prompt)
-            ],
-            responseFormat: OpenAIRequest.ResponseFormat(type: "json_object")
+            ]
         )
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("Bearer \(Constants.openAIAPIKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.timeoutInterval = 30
 
@@ -73,6 +67,7 @@ final class RecipeAPIService {
     private func buildPrompt(ingredients: [String]) -> String {
         let ingredientList = ingredients.joined(separator: ", ")
         return """
+        Kamu adalah chef profesional. Selalu kembalikan respons dalam format JSON yang valid berbahasa indonesia.
         Saya memiliki bahan-bahan berikut: \(ingredientList).
 
         Buatkan 1 resep masakan yang bisa dibuat dari bahan tersebut.

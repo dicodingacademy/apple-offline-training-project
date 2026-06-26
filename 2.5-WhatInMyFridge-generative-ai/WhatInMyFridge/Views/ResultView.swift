@@ -37,7 +37,7 @@ struct ResultView: View {
             }
 
             NavigationLink {
-                RecipeView(ingredients: results.map { $0.label })
+                RecipeView(ingredients: results.prefix(1).map { $0.label })
             } label: {
                 Label("Buat Resep dari Bahan Ini", systemImage: "wand.and.stars")
                     .frame(maxWidth: .infinity)
