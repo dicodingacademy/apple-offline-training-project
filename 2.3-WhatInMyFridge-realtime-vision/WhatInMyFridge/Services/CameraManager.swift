@@ -9,6 +9,7 @@ import AVFoundation
 import Vision
 import CoreML
 import SwiftUI
+import SimulatorCameraClient
 
 @Observable
 final class CameraManager: NSObject {
@@ -23,12 +24,20 @@ final class CameraManager: NSObject {
     var detections: [Detection] = []
     var isRunning = false
     var permissionDenied = false
+    // Khusus Simulator — previewLayer tidak punya AVCaptureSession asli buat
+    // ditampilkan, jadi view merender ini sebagai gantinya. Tidak dipakai di perangkat asli.
+    var previewImage: UIImage?
 
     let previewLayer = AVCaptureVideoPreviewLayer()
+    private let ciContext = CIContext()
 
     // Diakses dari background queue — butuh nonisolated(unsafe)
     nonisolated(unsafe) private let session = AVCaptureSession()
     nonisolated(unsafe) private let videoOutput = AVCaptureVideoDataOutput()
+    // Simulator tidak punya hardware kamera — SimulatorCameraOutput melewati
+    // AVCaptureSession sepenuhnya dan streaming frame dari companion app di Mac.
+    nonisolated(unsafe) private let simulatorOutput = SimulatorCameraOutput()
+    nonisolated(unsafe) private var simulatorCaptureStarted = false
     nonisolated(unsafe) private let sessionQueue = DispatchQueue(label: "camera.session.queue")
     nonisolated(unsafe) private let inferenceQueue = DispatchQueue(label: "camera.inference.queue", qos: .userInitiated)
     private var visionModel: VNCoreMLModel?
@@ -57,9 +66,16 @@ final class CameraManager: NSObject {
         session.sessionPreset = .medium
         previewLayer.session = session
         previewLayer.videoGravity = .resizeAspectFill
+
+        // Tidak berpengaruh di perangkat asli. Di Simulator, menghubungkan
+        // SimulatorCamera ke companion app di Mac (default 127.0.0.1:9876).
+        SimulatorCamera.configure(host: "127.0.0.1", port: 9876)
     }
 
     nonisolated private func configureInputOutput() {
+        #if targetEnvironment(simulator)
+        simulatorOutput.setSampleBufferDelegate(self, queue: inferenceQueue)
+        #else
         guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
               let input = try? AVCaptureDeviceInput(device: device),
               session.canAddInput(input) else {
@@ -78,6 +94,7 @@ final class CameraManager: NSObject {
         }
 
         session.commitConfiguration()
+        #endif
     }
 
     // MARK: - Control
@@ -101,19 +118,34 @@ final class CameraManager: NSObject {
 
     private func startCapture() {
         sessionQueue.async { [weak self] in
-            guard let self, !self.session.isRunning else { return }
+            guard let self else { return }
+            #if targetEnvironment(simulator)
+            guard !self.simulatorCaptureStarted else { return }
+            self.simulatorCaptureStarted = true
+            self.configureInputOutput()
+            SimulatorCamera.start()
+            #else
+            guard !self.session.isRunning else { return }
             if self.session.inputs.isEmpty {
                 self.configureInputOutput()
             }
             self.session.startRunning()
+            #endif
             DispatchQueue.main.async { self.isRunning = true }
         }
     }
 
     func stopSession() {
         sessionQueue.async { [weak self] in
-            guard let self, self.session.isRunning else { return }
+            guard let self else { return }
+            #if targetEnvironment(simulator)
+            guard self.simulatorCaptureStarted else { return }
+            self.simulatorCaptureStarted = false
+            SimulatorCamera.stop()
+            #else
+            guard self.session.isRunning else { return }
             self.session.stopRunning()
+            #endif
             DispatchQueue.main.async { self.isRunning = false }
         }
     }
@@ -131,6 +163,16 @@ extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         guard let model = visionModel,
               let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+
+        #if targetEnvironment(simulator)
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        if let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent) {
+            // Samakan orientasi .right yang sudah dipakai di bawah untuk request
+            // Vision — buffer mentah berorientasi landscape, perlu koreksi rotasi 90° searah jarum jam.
+            let image = UIImage(cgImage: cgImage, scale: 1, orientation: .right)
+            DispatchQueue.main.async { [weak self] in self?.previewImage = image }
+        }
+        #endif
 
         let request = VNCoreMLRequest(model: model) { [weak self] request, error in
             guard error == nil,
