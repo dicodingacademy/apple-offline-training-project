@@ -34,8 +34,24 @@ struct LiveScannerView: View {
     }
 
     private var cameraPreview: some View {
+        #if targetEnvironment(simulator)
+        // Simulator tidak punya feed AVCaptureSession — render frame yang
+        // di-stream dari SimulatorCameraOutput, bukan dari previewLayer (kosong).
+        Group {
+            if let image = cameraManager.previewImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Color.black
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipped()
+        #else
         CameraPreviewView(previewLayer: cameraManager.previewLayer)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #endif
     }
 
     private func boundingBoxOverlay(in size: CGSize) -> some View {

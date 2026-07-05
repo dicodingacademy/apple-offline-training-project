@@ -1,0 +1,15 @@
+{
+  "originHash" : "331c8737267cebcafd87745bba5b21c6065598cc749fdb3bd221419af1d659da",
+  "pins" : [
+    {
+      "identity" : "simulatorcamera",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Akylas/SimulatorCamera",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3d754bc4fd1b14a08f6474cc825036b1ed958196"
+      }
+    }
+  ],
+  "version" : 3
+}
