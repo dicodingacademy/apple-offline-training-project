@@ -1,0 +1,32 @@
+@baseUrl = https://llm.dicoding-ai.dev/v1/chat/completions
+@model = openai/gpt-oss-20b
+
+### Hit API — prompt sederhana
+# @name trial
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "model": "{{model}}",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Definisikan AI dalam 3 kalimat."
+    }
+  ]
+}
+
+### Hit API — prompt mendapatkan resep masakan
+# @name recipe
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "model": "{{model}}",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Kamu adalah chef profesional. Selalu kembalikan respons dalam format JSON yang valid berbahasa indonesia.\nSaya memiliki bahan-bahan berikut: apel, wortel.\n\nBuatkan 1 resep masakan yang bisa dibuat dari bahan tersebut.\nKembalikan dalam format JSON dengan struktur PERSIS seperti ini:\n{\n  \"recipe_name\": \"nama resep\",\n  \"description\": \"deskripsi singkat 1-2 kalimat\",\n  \"ingredients\": [\"bahan 1 dengan takaran\", \"bahan 2 dengan takaran\"],\n  \"steps\": [\"langkah 1\", \"langkah 2\", \"langkah 3\"],\n  \"nutrition\": {\n    \"calories\": \"350 kkal\",\n    \"protein\": \"25g\",\n    \"carbohydrates\": \"40g\",\n    \"fat\": \"12g\",\n    \"fiber\": \"5g\"\n  }\n}"
+    }
+  ]
+}
