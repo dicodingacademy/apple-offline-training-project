@@ -142,7 +142,7 @@ struct FeedbackView: View {
 
 // MARK: - Supporting Types
 
-struct SubmittedFeedback: Identifiable {
+struct SubmittedFeedback {
     let id = UUID()
     let text: String
     let sentiment: SentimentResult

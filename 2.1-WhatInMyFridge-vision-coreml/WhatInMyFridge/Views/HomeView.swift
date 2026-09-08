@@ -77,7 +77,7 @@ struct HomeView: View {
 
     private var actionSection: some View {
         VStack(spacing: 16) {
-            ImagePickerView(selectedImage: $selectedImage)
+            ImagePickerView(selectedImage: selectedImage)
 
             NavigationLink {
                 Text("Live Scanner — Coming in Sesi 2.3")
