@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "1C982482-9E27-4D83-B2CF-6F4619DD68B9": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        },
+        "28FFD3C9-FB1F-470D-9235-D138E8389109": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        },
+        "70B1B422-FC11-4B49-A84D-2A9EB40EB814": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "FoodObjectDetector.mlmodel",
+            "path": "com.apple.CoreML/FoodObjectDetector.mlmodel"
+        }
+    },
+    "rootModelIdentifier": "70B1B422-FC11-4B49-A84D-2A9EB40EB814"
+}

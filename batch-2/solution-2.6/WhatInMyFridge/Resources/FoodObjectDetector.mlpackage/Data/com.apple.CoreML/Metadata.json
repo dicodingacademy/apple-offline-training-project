@@ -1,0 +1,16 @@
+{
+  "MLModelVersionStringKey" : "--",
+  "MLModelDescriptionKey" : "Sebuah model yang dibangun untuk melakukan object detection berdasarkan bahan makanan.",
+  "MLModelCreatorDefinedKey" : {
+    "com.apple.coreml.model.preview.type" : "objectDetector",
+    "com.apple.createml.training.started" : "2026-06-18T06:32:11Z",
+    "com.apple.createml.version" : "26.5.1",
+    "com.apple.createml.training.finished" : "2026-06-18T07:01:03Z",
+    "com.apple.createml.app.tag" : "178.2",
+    "iterations" : "31000",
+    "com.apple.createml.model.created" : "2026-06-18T07:01:03Z",
+    "com.apple.createml.app.version" : "6.2"
+  },
+  "MLModelAuthorKey" : "Dicoding",
+  "MLModelLicenseKey" : "--"
+}
